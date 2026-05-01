@@ -13,3 +13,10 @@ Authors are intentionally non-specific placeholders until the final author list 
 ## Adding comments in the text
 
 See [COMMENTING.md](./COMMENTING.md).
+
+## Build Targets
+
+- `main.tex`: full working paper draft.
+- `main-extended.tex`: short extended abstract with figure placeholders for conference submission.
+- `main-production.tex`: LuaLaTeX production-quality version of the full draft.
+

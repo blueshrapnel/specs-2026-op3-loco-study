@@ -1,0 +1,59 @@
+\begin{abstract}
+This extended abstract reports a reproduction and deployment-oriented adaptation of the MuJoCo Playground OP3 joystick locomotion task for the ROBOTIS OP3 humanoid. The work is not presented as a novel reinforcement-learning algorithm. Instead, it examines the engineering path from a reference MuJoCo policy to a deployment-facing pipeline: MJX/Brax PPO training, actuator-order alignment with ROBOTIS motor IDs, ONNX export, ROS~2 policy execution, MuJoCo-to-Webots sim-to-sim testing, and measurement-driven sim-to-real diagnosis. The central claim is that small mismatches in observation conventions, command filtering, actuator stiffness, and simulator contact assumptions can dominate whether a policy that walks in simulation remains meaningful when moved into a second simulator or onto hardware.
+\end{abstract}
+
+\noindent\textbf{Keywords:} ROBOTIS OP3; MuJoCo Playground; Webots; ROS~2; humanoid locomotion; sim-to-sim; sim-to-real; reproducibility.
+
+\section{Motivation}
+
+High-throughput reinforcement learning can produce visually convincing humanoid locomotion in simulation, but transferring such policies to a physical robot depends on whether the training simulator, exported policy, middleware, and robot control stack describe the same closed-loop system. We study this problem using the ROBOTIS OP3 joystick locomotion task from MuJoCo Playground \citep{todorov2012mujoco,brax2021github,mujocoPlayground2025}. Our goal is deliberately conservative: reproduce the reference walking behaviour, adapt it to a ROBOTIS-ordered STRIDE pipeline, and identify fidelity gaps before making strong hardware claims.
+
+\section{Pipeline}
+
+The current pipeline is:
+\[
+\text{MuJoCo MJCF} \rightarrow \text{MJX} \rightarrow \text{Brax PPO} \rightarrow \text{ONNX} \rightarrow \text{ROS 2} \rightarrow \text{Webots / OP3}.
+\]
+
+The policy runs at 50~Hz with a 147-dimensional observation formed from three stacked 49-dimensional frames. Actions are 20-dimensional joint-position offsets around the default pose. A key implementation detail is actuator ordering: the STRIDE model reorders the MuJoCo actuators to match ROBOTIS motor IDs 1--20, reducing the chance that learned actions are permuted during deployment.
+
+\begin{figure}[t]
+  \centering
+  \figureplaceholder{Pipeline diagram: MuJoCo Playground reference, STRIDE/MJX training, ONNX export, ROS~2 policy node, Webots sim-to-sim test, and physical OP3 deployment path.}
+  \caption{Planned system overview figure.}
+  \label{fig:pipeline}
+\end{figure}
+
+\section{Sim-to-Sim Transfer}
+
+Before treating hardware experiments as sim-to-real evidence, we use Webots as an intermediate deployment rehearsal. The purpose is not to claim that Webots is more accurate than MuJoCo, but to test whether the exported ONNX policy and ROS~2 policy node can drive an OP3 model outside the original training simulator. This stage exercises the same observation builder, joint-state interface, IMU handling, command velocity input, action history, motor ordering, update timing, and position-command semantics intended for hardware.
+
+The main comparisons will be commanded versus achieved base velocity, torso pitch and roll, foot contact timing, joint position tracking, action saturation, and qualitative failure modes such as foot scuffing, collapse, or turning bias. Disagreement between MuJoCo and Webots is useful when it localises a deployment assumption that was hidden in the training loop.
+
+\begin{figure}[t]
+  \centering
+  \figureplaceholder{Side-by-side rollout snapshots or traces from MuJoCo and Webots under matched joystick commands.}
+  \caption{Planned sim-to-sim comparison figure.}
+  \label{fig:sim2sim}
+\end{figure}
+
+\section{Preliminary Findings}
+
+Initial reproduction work shows that matching the reference implementation matters more than changing the learning algorithm. Stable walking required Playground-compatible reward scaling, body-frame velocity tracking, observation normalisation, three-frame history, command sampling, and PD gain setup. A custom PPO implementation produced stable standing but poor walking until these details were brought into alignment.
+
+Deployment testing has also exposed control-path issues. The ROBOTIS \texttt{direct\_control\_module} can low-pass filter position commands through minimum-jerk smoothing. For a policy emitting actions every 20~ms, these filtering parameters determine whether the robot receives near-passthrough policy commands or smoothed trajectories with substantially different timing.
+
+\begin{figure}[t]
+  \centering
+  \figureplaceholder{Training curve and/or measured fidelity plot: reward progression, stiffness comparison, command filtering response, or action replay error.}
+  \caption{Planned preliminary-results figure.}
+  \label{fig:results}
+\end{figure}
+
+\section{Sim-to-Real Fidelity Questions}
+
+The main simulator mismatch identified so far is actuator stiffness. The default MuJoCo Playground OP3 stiffness is much softer than measurements from the physical robot in a static walk-ready pose. Action-page replay also revealed that trajectory shape matters: linear interpolation in simulation did not match the trapezoidal velocity profile used by the ROBOTIS action module. Foot-ground interaction is another open question, because the physical OP3 feet include protruding screws that can behave like high-friction contact points on outdoor surfaces.
+
+\section{Contribution}
+
+The contribution of this extended abstract is an engineering audit rather than a new locomotion method. We document a reproducible path from a public MuJoCo Playground OP3 task to a ROS~2 deployment stack, add a Webots sim-to-sim stage to test deployment assumptions, and identify the main fidelity gaps that must be resolved before robust physical walking claims are credible.
