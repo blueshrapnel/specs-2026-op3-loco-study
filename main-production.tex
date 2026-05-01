@@ -1,0 +1,156 @@
+%% main-production.tex
+%% Production-quality build with the nicer LuaLaTeX typography.
+%%
+%% Use this for local builds or Overleaf paid/long-timeout builds.
+%% The paper text is shared with main.tex via paper-content.tex.
+
+\documentclass[11pt,a4paper]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Page layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{parskip}
+\usepackage[all]{nowidow}
+\usepackage[shortlabels]{enumitem}
+\setlist[itemize]{noitemsep,topsep=0.25em}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Fonts: daily-notes style, LuaLaTeX / fontspec / unicode-math.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+
+\setmainfont{DejaVu Sans}[
+  Scale=MatchLowercase,
+  BoldFont = DejaVu Sans Bold,
+  ItalicFont = DejaVu Sans Oblique,
+  BoldItalicFont = DejaVu Sans Bold Oblique
+]
+\setsansfont{DejaVu Sans}[
+  Scale=MatchLowercase,
+  BoldFont = DejaVu Sans Bold,
+  ItalicFont = DejaVu Sans Oblique,
+  BoldItalicFont = DejaVu Sans Bold Oblique
+]
+\renewcommand{\familydefault}{\sfdefault}
+\setmonofont[Scale=0.9]{JetBrains Mono}
+
+% DejaVu Sans has no light series; suppress related warnings.
+\makeatletter
+\def\bfseries@sf{medium}
+\def\mdseries@sf{m}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Maths
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath,amssymb,amsthm,amsfonts}
+\usepackage{mathtools}
+\PassOptionsToPackage{warnings-off={mathtools-colon,mathtools-overbracket}}{unicode-math}
+\usepackage{unicode-math}
+\setmathfont[Scale=0.89]{Fira Math}
+\setmathfont[Scale=0.89]{Latin Modern Math}[range={"22A4}]
+\setmathfont[Scale=0.89]{Latin Modern Math}[range=\mathcal]
+\setmathfont[Scale=0.89]{Latin Modern Math}[range=\symcal]
+\setmathfont[Scale=0.89]{Latin Modern Math}[range=\mathfrak]
+\setmathfont[Scale=0.89]{Latin Modern Math}[range=\symfrak]
+\setmathfont[Scale=0.89]{Latin Modern Math}[range=\Im]
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section styling
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xcolor}
+\definecolor{strideblue}{HTML}{245C73}
+\definecolor{strideslate}{HTML}{263238}
+\definecolor{stridegray}{HTML}{66757F}
+\usepackage[framemethod=default]{mdframed}
+\definecolor{commentboxbg}{HTML}{F7F9FA}
+\definecolor{commentboxline}{HTML}{B8C7D1}
+\newmdenv[
+  linecolor=commentboxline,
+  backgroundcolor=commentboxbg,
+  linewidth=0.6pt,
+  roundcorner=2pt,
+  leftmargin=0pt,
+  rightmargin=0pt,
+  innerleftmargin=8pt,
+  innerrightmargin=8pt,
+  innertopmargin=6pt,
+  innerbottommargin=6pt,
+  skipabove=0.8em,
+  skipbelow=0.8em
+]{commentbox}
+\newcommand{\draftcomment}[2][Comment]{%
+  \begin{commentbox}
+  \textbf{#1.} #2
+  \end{commentbox}
+}
+
+\usepackage{titlesec}
+\titleformat*{\section}{\normalfont\sffamily\bfseries\fontsize{12}{15}\selectfont\color{strideblue}}
+\titleformat*{\subsection}{\normalfont\sffamily\bfseries\fontsize{11}{14}\selectfont\color{strideslate}}
+\titleformat*{\subsubsection}{\normalfont\sffamily\bfseries\fontsize{10}{13}\selectfont\color{strideslate}}
+\titlespacing{\section}{0pt}{2.0ex}{0.8ex}
+\titlespacing{\subsection}{0pt}{1.2ex}{0.4ex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Figures, captions, tables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage[font=small,labelfont=bf]{caption}
+\captionsetup{justification=raggedright,singlelinecheck=false}
+\usepackage{subcaption}
+\renewcommand{\thesubfigure}{\Alph{subfigure}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Hyperlinks and references
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=strideslate,
+  citecolor=strideslate,
+  urlcolor=strideblue,
+  breaklinks=true,
+  bookmarksdepth=4,
+  hypertexnames=false
+}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[backend=biber,natbib=true,style=authoryear,maxcitenames=2]{biblatex}
+\addbibresource{refs.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Authorship
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{authblk}
+
+\title{From MuJoCo Playground to ROBOTIS OP3: reproducing joystick locomotion and diagnosing sim-to-real gaps}
+
+\author[1]{Author One}
+\author[1]{Author Two}
+\author[2]{Author Three}
+\author[1]{Author Four}
+
+\affil[1]{Affiliation One}
+\affil[2]{Affiliation Two}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\input{paper-content}
+
+\printbibliography
+
+\end{document}
