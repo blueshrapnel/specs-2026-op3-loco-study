@@ -12,4 +12,4 @@ Authors are intentionally non-specific placeholders until the final author list 
 
 ## Adding comments in the text
 
-see [COMMENTING.md](COMMENTING.MD)
+See [COMMENTING.md](./COMMENTING.md).
