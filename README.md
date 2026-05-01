@@ -20,3 +20,21 @@ See [COMMENTING.md](./COMMENTING.md).
 - `main-extended.tex`: short extended abstract with figure placeholders for conference submission.
 - `main-production.tex`: LuaLaTeX production-quality version of the full draft.
 
+Shared title and page-header text lives in `paper-metadata.tex`.
+
+Build all PDFs:
+
+```sh
+make all
+```
+
+Useful individual targets:
+
+```sh
+make fast        # main.pdf and main-extended.pdf
+make full        # main.pdf
+make extended    # main-extended.pdf
+make production  # main-production.pdf
+make clean       # auxiliary files only
+make clobber     # auxiliary files and PDFs
+```

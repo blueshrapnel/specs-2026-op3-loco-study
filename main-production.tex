@@ -121,6 +121,7 @@
   hypertexnames=false
 }
 \usepackage[nameinlink,noabbrev]{cleveref}
+\usepackage{fancyhdr}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Bibliography
@@ -133,7 +134,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage{authblk}
 
-\title{From MuJoCo Playground to ROBOTIS OP3: reproducing joystick locomotion and diagnosing sim-to-real gaps}
+\input{paper-metadata}
+
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[C]{\footnotesize \paperShortTitle}
+\fancyhead[R]{\footnotesize \paperRunningHeader}
+\fancyfoot[C]{\thepage}
+\setlength{\headheight}{14pt}
+
+\title{\paperTitle}
 
 \author[1]{Author One}
 \author[1]{Author Two}
