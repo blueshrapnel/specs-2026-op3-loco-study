@@ -1,0 +1,64 @@
+# LaTeX build artifacts
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.run.xml
+*.synctex.gz
+*.toc
+*.xdv
+*.dvi
+
+# Latexmk / temporary outputs
+_minted-*/
+*.nav
+*.snm
+*.vrb
+*.tmp
+*.temp
+
+# Generated local PDFs. Remove this rule if you want to track compiled PDFs.
+*.pdf
+
+# Python and notebook noise
+__pycache__/
+*.py[cod]
+.ipynb_checkpoints/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# IDE/editor
+.vscode/
+.vscode-test/
+.idea/
+*.code-workspace
+*~
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+Desktop.ini
+ehthumbs.db
+
+# Emacs / TeX editing noise
+*.prv
+auto/*
+_region_.tex
+
+# Dropbox / git backup conflicts
+.git.backup-*/
+.git (Selective Sync Conflict)/
+.git (Selective Sync Conflict *)/
+.vscode (Selective Sync Conflict)/
+.vscode (Selective Sync Conflict *)/

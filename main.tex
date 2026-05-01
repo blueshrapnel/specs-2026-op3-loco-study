@@ -1,0 +1,288 @@
+%% main.tex
+%% SPECS OP3 working draft.
+%%
+%% Engine: LuaLaTeX, for fontspec/unicode-math.
+%% This is a venue-agnostic working template. Switch to a SPECS-specific
+%% template later if the organisers provide one.
+
+\documentclass[11pt,a4paper]{article}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Page layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[a4paper,margin=1in]{geometry}
+\usepackage{parskip}
+\usepackage[all]{nowidow}
+\usepackage[shortlabels]{enumitem}
+\setlist[itemize]{noitemsep,topsep=0.25em}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Fonts: modern sans style, close to the daily notes setup.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{fontspec}
+\defaultfontfeatures{Ligatures=TeX}
+
+\IfFontExistsTF{DejaVu Sans}{
+  \setmainfont{DejaVu Sans}[
+    Scale=MatchLowercase,
+    BoldFont = DejaVu Sans Bold,
+    ItalicFont = DejaVu Sans Oblique,
+    BoldItalicFont = DejaVu Sans Bold Oblique
+  ]
+  \setsansfont{DejaVu Sans}[
+    Scale=MatchLowercase,
+    BoldFont = DejaVu Sans Bold,
+    ItalicFont = DejaVu Sans Oblique,
+    BoldItalicFont = DejaVu Sans Bold Oblique
+  ]
+}{
+  \setmainfont{TeX Gyre Heros}[Scale=MatchLowercase]
+  \setsansfont{TeX Gyre Heros}[Scale=MatchLowercase]
+}
+\renewcommand{\familydefault}{\sfdefault}
+
+\IfFontExistsTF{JetBrains Mono}{
+  \setmonofont[Scale=0.9]{JetBrains Mono}
+}{
+  \setmonofont[Scale=0.9]{Inconsolata}
+}
+
+% DejaVu Sans has no light series; suppress related warnings.
+\makeatletter
+\def\bfseries@sf{medium}
+\def\mdseries@sf{m}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Maths
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath,amssymb,amsthm,amsfonts}
+\usepackage{mathtools}
+\PassOptionsToPackage{warnings-off={mathtools-colon,mathtools-overbracket}}{unicode-math}
+\usepackage{unicode-math}
+\IfFontExistsTF{Fira Math}{
+  \setmathfont[Scale=0.89]{Fira Math}
+  \setmathfont[Scale=0.89]{Latin Modern Math}[range={"22A4}]
+  \setmathfont[Scale=0.89]{Latin Modern Math}[range=\mathcal]
+  \setmathfont[Scale=0.89]{Latin Modern Math}[range=\symcal]
+  \setmathfont[Scale=0.89]{Latin Modern Math}[range=\mathfrak]
+  \setmathfont[Scale=0.89]{Latin Modern Math}[range=\symfrak]
+  \setmathfont[Scale=0.89]{Latin Modern Math}[range=\Im]
+}{
+  \setmathfont[Scale=0.89]{Latin Modern Math}
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Section styling
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{xcolor}
+\definecolor{strideblue}{HTML}{245C73}
+\definecolor{strideslate}{HTML}{263238}
+\definecolor{stridegray}{HTML}{66757F}
+
+\usepackage{titlesec}
+\titleformat*{\section}{\normalfont\sffamily\bfseries\fontsize{12}{15}\selectfont\color{strideblue}}
+\titleformat*{\subsection}{\normalfont\sffamily\bfseries\fontsize{11}{14}\selectfont\color{strideslate}}
+\titleformat*{\subsubsection}{\normalfont\sffamily\bfseries\fontsize{10}{13}\selectfont\color{strideslate}}
+\titlespacing{\section}{0pt}{2.0ex}{0.8ex}
+\titlespacing{\subsection}{0pt}{1.2ex}{0.4ex}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Figures, captions, tables
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{graphicx}
+\graphicspath{{figures/}}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage[font=small,labelfont=bf]{caption}
+\captionsetup{justification=raggedright,singlelinecheck=false}
+\usepackage{subcaption}
+\renewcommand{\thesubfigure}{\Alph{subfigure}}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Hyperlinks and references
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{url}
+\usepackage{hyperref}
+\hypersetup{
+  colorlinks=true,
+  linkcolor=strideslate,
+  citecolor=strideslate,
+  urlcolor=strideblue,
+  breaklinks=true,
+  bookmarksdepth=4,
+  hypertexnames=false
+}
+\usepackage[nameinlink,noabbrev]{cleveref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Bibliography
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[backend=biber,natbib=true,style=authoryear,maxcitenames=2]{biblatex}
+\addbibresource{refs.bib}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Authorship
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{authblk}
+
+\title{From MuJoCo Playground to ROBOTIS OP3: reproducing joystick locomotion and diagnosing sim-to-real gaps}
+
+\author[1]{Author One}
+\author[1]{Author Two}
+\author[2]{Author Three}
+\author[1]{Author Four}
+
+\affil[1]{Affiliation One}
+\affil[2]{Affiliation Two}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{abstract}
+This paper reports a reproduction and deployment-oriented adaptation of the MuJoCo Playground OP3 joystick locomotion task for the ROBOTIS OP3 humanoid. The work is not presented as a novel reinforcement-learning algorithm. Instead, it documents the engineering path from a reference MuJoCo Playground policy to a STRIDE training and deployment pipeline: actuator-order alignment with ROBOTIS motor IDs, Brax PPO training in MJX, ONNX export, ROS~2 deployment, and measurement-driven sim-to-real diagnosis. The main contribution is a set of practical lessons about why a policy that walks in simulation may fail on hardware: observation and reward conventions must match the reference implementation exactly, the deployment control path can accidentally filter policy commands, and the default OP3 actuator stiffness in the simulator is substantially softer than measured hardware behaviour. We argue that this kind of faithful reproduction and model-fidelity audit is a necessary precursor to credible sim-to-real claims for small humanoid locomotion.
+\end{abstract}
+
+\noindent\textbf{Keywords:} ROBOTIS OP3; MuJoCo Playground; MJX; Brax PPO; humanoid locomotion; sim-to-real; reproducibility.
+
+\section{Introduction}
+\label{sec:introduction}
+
+Reinforcement learning can now produce visually convincing locomotion policies for small humanoid robots in high-throughput physics simulators. However, the practical value of these policies depends on whether the simulated task, the exported policy, and the real robot control path describe the same closed-loop system.
+
+This paper presents a reproduction and adaptation of the MuJoCo Playground OP3 joystick locomotion environment \parencite{todorov2012mujoco,brax2021github,mujocoPlayground2025}. The aim is deliberately modest: reproduce the reference OP3 walking result, adapt it to a ROBOTIS-motor-ordered STRIDE training pipeline, and identify the main sim-to-real gaps before making claims about robust physical deployment.
+
+\textbf{Draft positioning.} This is not new algorithmic work. The technical contribution is an engineering and measurement report: what had to match, what initially did not match, and which simulator assumptions were contradicted by measurements from the physical OP3.
+
+\section{Background and Related Work}
+\label{sec:background}
+
+\subsection{MuJoCo, MJX, and Playground}
+
+Summarise MuJoCo as the physics engine, MJX as the JAX-compatible accelerator path, and MuJoCo Playground as the source of the OP3 joystick locomotion task. The reference implementation defines the observation layout, reward terms, command sampling, PD gain setup, history stacking, and PPO training recipe used as the baseline.
+
+\subsection{Brax PPO for locomotion}
+
+Explain why the working pipeline uses Brax PPO rather than a custom PPO implementation: scan-based rollout collection, vectorised environments, observation normalisation, and much higher sample throughput.
+
+\subsection{ROBOTIS OP3 deployment context}
+
+Briefly describe the OP3: 20 XM430-W350 Dynamixel joints, position-control deployment, 50~Hz RL policy inference, ROS~2 control path, and the practical constraints imposed by the ROBOTIS framework.
+
+\section{System Overview}
+\label{sec:system}
+
+\subsection{Reference and STRIDE models}
+
+The reference model is the MuJoCo Playground OP3 task. The STRIDE model keeps the same broad training formulation but reorders actuators to match ROBOTIS motor IDs 1--20, so the policy output vector maps directly to real robot motor commands.
+
+\subsection{Training pipeline}
+
+The current pipeline is:
+\[
+\text{MuJoCo MJCF} \rightarrow \text{MJX} \rightarrow \text{Brax PPO} \rightarrow \text{Orbax checkpoint} \rightarrow \text{ONNX} \rightarrow \text{ROS 2 deployment}.
+\]
+
+Important training parameters to report:
+\begin{itemize}
+  \item 50~Hz control, 0.004~s simulation timestep, 5 simulation steps per action.
+  \item 2048 parallel environments in the usual training configuration.
+  \item 147-dimensional observation: 49-dimensional frame stacked over three history frames.
+  \item 20-dimensional action, squashed to $[-1,1]$ and scaled by 0.3~rad around the default pose.
+  \item Policy network: four hidden layers of 128 units; critic: five hidden layers of 256 units.
+\end{itemize}
+
+\subsection{Observation and command conventions}
+
+The policy observes body-frame angular velocity, upvector, commanded velocity, joint positions relative to the default pose, previous action, and two previous observation frames. The commanded joystick velocity is a continuous triple $(v_x, v_y, \omega_z)$ sampled during training and supplied by the deployment command interface at runtime.
+
+\section{Reproducing Playground Walking}
+\label{sec:reproduction}
+
+\subsection{Custom PPO failure mode}
+
+Describe the initial custom PPO attempts: stable standing, poor walking, low throughput, missing details relative to Playground. Use this as a reproducibility lesson rather than as a negative result against PPO.
+
+\subsection{Reference-matching fixes}
+
+The important fixes were:
+\begin{itemize}
+  \item reward scaled by control timestep and clipped to be non-negative;
+  \item body-frame rather than world-frame velocity tracking;
+  \item observation normalisation from the start of training;
+  \item three-frame observation history;
+  \item Playground-compatible command ranges and resampling;
+  \item PD gain setup through MuJoCo actuator parameters;
+  \item Brax scan-based rollout and update loop.
+\end{itemize}
+
+\subsection{Training result}
+
+Insert training curves and short rollout snapshots here. Suggested figure: reward versus environment steps comparing custom PPO, Playground reference, and STRIDE/Brax PPO.
+
+\section{Policy Export and Deployment}
+\label{sec:deployment}
+
+\subsection{ONNX export}
+
+The exported policy bakes observation normalisation into the graph and uses the deterministic action $a=\tanh(\mu)$, discarding the stochastic log-standard-deviation outputs used during training.
+
+\subsection{ROS 2 control path}
+
+Document the 50~Hz policy node, observation construction from IMU quaternion, joint states, command velocity, last action, and history stacking.
+
+\subsection{Deployment control filtering}
+
+The ROBOTIS \texttt{direct\_control\_module} can strongly low-pass filter position commands through minimum-jerk smoothing. For an RL policy emitting commands every 20~ms, moving-time and moving-angle parameters determine whether the hardware receives near-passthrough commands or heavily filtered trajectories.
+
+\section{Sim-to-Real Fidelity Findings}
+\label{sec:sim2real}
+
+\subsection{Motor stiffness mismatch}
+
+The MuJoCo Playground default OP3 stiffness, $K_p=21.1$, is too soft for the measured physical robot. In static walk-ready recordings, the real OP3 held all joints within roughly 0.1--0.2 degrees over 5 seconds, while the default simulator showed substantially larger yielding. Increasing simulated stiffness towards $K_p=100$ reduced the discrepancy but did not fully match the real robot.
+
+\subsection{Trajectory-shape mismatch}
+
+Action-page replay initially showed confusing dynamic errors: a softer simulated controller sometimes tracked better than a stiffer, more realistic controller. The reason was an input mismatch. The simulator was replaying linear interpolation between keyframes, while the ROBOTIS action module uses a trapezoidal velocity profile. Porting the trapezoidal generator greatly reduced dynamic tracking error.
+
+\subsection{Foot friction and spikes}
+
+The real OP3 feet include protruding screws that behave like spikes on grass. A policy trained with moderate Coulomb friction may learn to slide or pivot in ways that fail on hardware. Future training should randomise friction, penalise foot slip more strongly, and represent screw-tip contacts or equivalent high-friction point contacts.
+
+\section{Discussion}
+\label{sec:discussion}
+
+\subsection{Reproduction as scientific work}
+
+The core lesson is that reproducing a locomotion result requires reproducing the full system: simulator settings, observation conventions, reward scaling, control rates, export semantics, and hardware command filtering. Small mismatches can dominate the observed behaviour.
+
+\subsection{What is original here}
+
+The original contribution is not a new PPO variant or locomotion reward. It is the OP3-specific audit trail: a deployment-aligned actuator order, measured simulator/hardware discrepancies, diagnosis of command-filtering effects, and a concrete roadmap for retraining against a more faithful model.
+
+\subsection{Limitations}
+
+Current limitations to state honestly:
+\begin{itemize}
+  \item the current policy was trained against a motor model now known to be too soft;
+  \item robust walking on the physical robot is not yet the claimed endpoint;
+  \item static stiffness measurements do not fully identify dynamic actuator behaviour;
+  \item battery voltage, torso mass, foot-ground interaction, and control latency remain partly unmodelled.
+\end{itemize}
+
+\section{Conclusion}
+\label{sec:conclusion}
+
+Conclude that the work turns a MuJoCo Playground reference task into a reproducible OP3 training and deployment pipeline, and that the main scientific value lies in exposing the hidden assumptions that must be made explicit before sim-to-real locomotion claims are credible.
+
+\section*{Acknowledgements}
+
+Placeholder for funding, lab, robot access, and acknowledgements.
+
+\printbibliography
+
+\end{document}
