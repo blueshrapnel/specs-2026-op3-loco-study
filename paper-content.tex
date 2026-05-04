@@ -22,7 +22,9 @@ This paper presents a reproduction and adaptation of the MuJoCo Playground OP3 j
 
 \subsection{MuJoCo, MJX, and Playground}
 
-Summarise MuJoCo as the physics engine, MJX as the JAX-compatible accelerator path, and MuJoCo Playground as the source of the OP3 joystick locomotion task. The reference implementation defines the observation layout, reward terms, command sampling, PD gain setup, history stacking, and PPO training recipe used as the baseline.
+MuJoCo provides the rigid-body simulation substrate and MJX provides the JAX-compatible accelerated execution path used for high-throughput policy training. MuJoCo Playground builds on this stack as a canonical open-source suite of robot-learning environments for locomotion, manipulation, and vision-based control \citep{todorov2012mujoco,zakka2025mujocoPlayground,mujocoPlaygroundRepo}. For this study, the important point is that ROBOTIS OP3 is included as a first-class humanoid joystick environment alongside Berkeley Humanoid, Unitree H1/G1, and Booster T1, sharing the same commanded velocity abstraction $(v_x, v_y, \omega_z)$. The paper reports rapid zero-shot deployment across six real robot platforms, and the RSS~2025 demo page records live demonstrations on Unitree Go1, Unitree G1, Booster T1, and LEAP hand \citep{mujocoPlaygroundDemo2025}. OP3 is therefore supported by the canonical library, but not reported as a demonstrated zero-shot hardware platform; this gap is the focus of our deployment audit.
+
+The reference implementation defines the observation layout, reward terms, command sampling, PD gain setup, history stacking, and PPO training recipe used as the baseline.
 
 \subsection{Brax PPO for locomotion}
 
