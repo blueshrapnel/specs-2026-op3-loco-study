@@ -37,6 +37,12 @@ The main comparisons will be commanded versus achieved base velocity, torso pitc
   \label{fig:sim2sim}
 \end{figure}
 
+The Webots controller is a C++ ROS~2 node running a 20\,ms timer callback: read joint states and IMU, assemble the 147-dimensional observation, run the ONNX forward pass, write 20-dimensional joint position targets.  A gating counter enforces the 50\,Hz policy rate independently of the ROS~2 spin rate.  Command velocity is received on the standard \texttt{/cmd\_vel} topic via \texttt{teleop\_twist\_keyboard}, making the node API-compatible with the planned hardware deployment.
+
+\draftcomment[Athul]{The paragraph below lists bugs found during integration}
+
+Several latent bugs were exposed during integration that would otherwise have appeared only on hardware.  (i)~\emph{IMU axis convention:} the Webots gyroscope axis mapping was determined empirically by perturbing the robot along each axis and inspecting raw sensor output; assuming documentation accuracy would have left a silent sign error. (ii)~\emph{Gravity vector transpose:} \texttt{getUpVector()} returns the third \emph{row} of the rotation matrix; using the third column produced a transposed gravity estimate and immediate falls. (iii)~\emph{Velocity-limit persistence:} a \texttt{setVelocity()} call made during initialisation persists across subsequent \texttt{setPosition()} calls, causing unrestricted-speed position commands until the limit is explicitly reset. (iv)~\emph{Timestep-dependent gain scaling:} training used $K_d=1.084$ at a 4\,ms physics step; Webots runs at 8\,ms, requiring $K_d=0.2$ for comparable joint damping.
+
 \section{Preliminary Findings}
 
 Initial reproduction work shows that matching the reference implementation matters more than changing the learning algorithm. Stable walking required Playground-compatible reward scaling, body-frame velocity tracking, observation normalisation, three-frame history, command sampling, and PD gain setup. A custom PPO implementation produced stable standing but poor walking until these details were brought into alignment.
@@ -57,6 +63,9 @@ The main simulator mismatch identified so far is actuator stiffness. The default
 \section{Contribution}
 
 The contribution of this extended abstract is an engineering audit rather than a new locomotion method. We document a reproducible path from a public MuJoCo Playground OP3 task to a ROS~2 deployment stack, add a Webots sim-to-sim stage to test deployment assumptions, and identify the main fidelity gaps that must be resolved before robust physical walking claims are credible.
+
+\draftcomment[Athul]{Added info in contributions}
+Concretely: actuator-order alignment between MuJoCo indices and ROBOTIS motor IDs~1--20; ONNX export and C++ ROS~2 integration of a JAX/Brax policy; a perturbation-based IMU remapping procedure transferable to other simulators and hardware; and a fidelity checklist covering actuator stiffness, contact geometry, command filtering, and timestep mismatch.
 
 \section*{Acknowledgements}
 
