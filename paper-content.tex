@@ -110,7 +110,7 @@ The important fixes were:
 
 \subsection{Training result}
 
-Insert training curves and short rollout snapshots here. Suggested figure: reward versus environment steps comparing custom PPO, Playground reference, and STRIDE/Brax PPO.
+Summarise the final training outcome textually, focusing on whether the reproduced policy matches the qualitative Playground joystick behaviour and which reward terms dominated during debugging.
 
 \section{Policy Export and Deployment}
 \label{sec:deployment}
@@ -192,3 +192,90 @@ Conclude that the work turns a MuJoCo Playground reference task into a reproduci
 \section*{Acknowledgements}
 
 Placeholder for STRIDE funding from SPECS [ ? ] and acknowledgements [conversations with Abolfazi ? ].
+
+\appendix
+
+\section{MuJoCo Playground Locomotion Reward Structure}
+\label{app:playground-rewards}
+
+This appendix reconstructs the reward structure that is most relevant to the OP3 joystick reproduction. It is a derived summary of the locomotion training details in Appendix~C of the RSS MuJoCo Playground paper, with the concrete OP3 terms and weights cross-checked against the public \texttt{Op3Joystick} implementation \citep{Zakka2025-demonstrating-mujoco-playground,GoogleDeepMind2025-mujoco-playground}. The purpose is not to introduce a new reward, but to make explicit which terms the reproduction must preserve before drawing conclusions about sim-to-real failure.
+
+\subsection{Generic locomotion formulation}
+
+The Playground locomotion tasks define joystick policies as commanded-velocity tracking problems. A command $c_t=(v_x^\star,v_y^\star,\omega_z^\star)$ specifies desired body-frame planar velocity and yaw rate. The policy outputs joint-position actions around a default pose,
+\[
+q^{\mathrm{des}}_t = q^{\mathrm{default}} + k_a a_t,
+\]
+which are converted to torques by a position-control law in the simulator. The RSS appendix describes a shared locomotion reward family built from velocity-tracking terms, gait/foot-contact terms, posture and stability terms, actuation regularisers, and termination penalties. The scalar reward is a weighted sum of per-term rewards or costs, clipped to remain non-negative.
+
+For OP3, the implemented observation is more specific than the generic locomotion description in the paper: each frame contains body angular velocity, projected gravity, joystick command, joint positions relative to the default pose, and previous action. Three frames are stacked, giving the 147-dimensional policy input used in this study.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Reward-function families described for MuJoCo Playground locomotion in RSS Appendix~C, rewritten here as a compact reference table. Not every term is active for every robot or task; OP3-specific weights are listed in \cref{tab:op3-reward-terms}.}
+\label{tab:playground-locomotion-reward-functions}
+\begin{tabularx}{\textwidth}{p{0.25\textwidth}p{0.30\textwidth}X}
+\toprule
+Reward family & Representative form & Purpose \\
+\midrule
+Linear velocity tracking & $\exp(-\lVert c_{xy}-v_{xy}\rVert^2/\sigma)$ & Rewards matching the commanded planar velocity. \\
+Angular velocity tracking & $\exp(-(c_{\omega}-\omega_z)^2/\sigma)$ & Rewards matching the commanded yaw rate. \\
+Feet airtime & clipped airtime above a minimum contact interval & Encourages stepping rather than shuffling for gaited locomotion. \\
+Feet clearance & penalty or reward based on foot height relative to a target swing height & Shapes swing-foot height and reduces dragging. \\
+Feet phase & $\exp(-\lVert p_z-p_z^\star(\phi)\rVert^2/\sigma_{\phi})$ & Encourages phase-consistent foot motion where phase variables are used. \\
+Feet slip & $\lVert v^{\mathrm{foot}}_{xy}\rVert^2$ during contact & Penalises sliding feet while in ground contact. \\
+Orientation & $\lVert g^{\mathrm{body}}_{xy}\rVert^2$ & Penalises torso roll/pitch away from upright. \\
+Joint torque & torque norm or absolute torque magnitude & Regularises high actuation effort. \\
+Joint position / pose & distance from nominal or default joint configuration & Encourages posture close to a desired configuration. \\
+Action rate & $\lVert a_t-a_{t-1}\rVert^2$ and, in OP3, a second-difference term & Penalises rapid command changes. \\
+Energy consumption & $\sum_j |\dot{q}_j|\,|\tau_j|$ & Penalises mechanical work proxy. \\
+Termination & indicator for early failure & Penalises falling or invalid episode termination. \\
+Stand-still / zero command & action or motion penalty when command magnitude is near zero & Encourages stillness under zero joystick command. \\
+Vertical/side angular motion & $v_z^2$ and $\lVert\omega_{xy}\rVert^2$ & Suppresses hopping and unstable roll/pitch rotation. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{OP3 joystick reward terms}
+
+The OP3 reward used by MuJoCo Playground can be written as
+\[
+r_t = \mathrm{clip}\left(\Delta t \sum_i w_i \phi_i(s_t,a_t,c_t), 0, 10000\right),
+\]
+where $\Delta t=0.02$~s, $\phi_i$ is an unweighted reward or cost feature, and $w_i$ is the corresponding scale. Tracking rewards are positive; costs use negative weights. The tracking kernel uses $\sigma=0.25$.
+
+\begin{table}[t]
+\centering
+\small
+\caption{OP3 joystick reward terms reconstructed from the MuJoCo Playground implementation and grouped according to the RSS Appendix~C locomotion reward description.}
+\label{tab:op3-reward-terms}
+\begin{tabularx}{\textwidth}{p{0.22\textwidth}p{0.13\textwidth}X}
+\toprule
+Term & Weight & Feature \\
+\midrule
+Planar velocity tracking & $1.5$ & $\exp(-\lVert c_{xy}-v^{\mathrm{body}}_{xy}\rVert^2/\sigma)$ rewards matching commanded forward/lateral velocity. \\
+Yaw-rate tracking & $0.8$ & $\exp(-(c_\omega-\omega_z)^2/\sigma)$ rewards matching commanded yaw rate. \\
+Vertical base velocity & $-2.0$ & Penalises $v_z^2$ to discourage hopping or falling motion. \\
+Roll/pitch angular velocity & $-0.05$ & Penalises $\lVert\omega_{xy}\rVert^2$ to discourage unstable body rotation. \\
+Orientation & $-5.0$ & Penalises horizontal components of the projected gravity vector, i.e. torso roll/pitch away from upright. \\
+Torque & $-0.0002$ & Penalises a combination of torque norm and absolute torque magnitude. \\
+Action rate & $-0.01$ & Penalises both first and second finite differences of the action sequence. \\
+Zero-command action & $-0.5$ & Penalises action magnitude when the joystick command norm is close to zero. \\
+Early termination & $-1.0$ & Penalises termination before the nominal episode horizon. \\
+Foot slip & $-0.1$ & Penalises horizontal foot velocity while feet are in contact with the floor. \\
+Foot clearance & $0.0$ & Measures deviation from the configured swing-foot height, but has zero weight in the default OP3 configuration. \\
+Energy & $-0.0001$ & Penalises $\sum_j |\dot{q}_j|\,|\tau_j|$ as an actuation-energy proxy. \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\subsection{Fine-tuning note for yaw tracking}
+
+This reward structure also helps interpret our initial yaw-lag observation. The current STRIDE baseline checkpoint was trained for $50$M steps with $8192$ parallel environments. This matches the MuJoCo Playground environment count, but it is only half of the default $100$M-step OP3 joystick training budget and does not include the RSS Appendix~C joystick fine-tuning sequence. That sequence first trains the joystick policy with a moderate yaw-command range, then adds a further $50$M-step fine-tune with a much wider yaw range before rough-terrain fine-tuning \citep{Zakka2025-demonstrating-mujoco-playground}. We therefore treat weak yaw-on-the-spot behaviour in the initial checkpoint as a training-regime limitation rather than evidence that PPO or MuJoCo Playground cannot learn the behaviour.
+
+There is also a reward-scale asymmetry in the public OP3 configuration. The planar velocity tracking term has weight $1.5$, while the yaw-rate tracking term has weight $0.8$ (Table~\ref{tab:op3-reward-terms}), so the configured linear-tracking scale is $1.5/0.8=1.875$, approximately $1.9\times$, the yaw-tracking scale. This does not imply that every rollout allocates exactly $1.9\times$ more return to translation, because realised rewards depend on the current tracking errors. It does mean that, all else equal, the default objective weights planar velocity tracking more strongly than yaw-rate tracking.
+
+Yaw-only commands are also a harder bipedal coordination problem than forward or lateral commands. Forward and lateral foot placement quickly produces measurable body-frame linear velocity, whereas in-place yaw requires alternating contacts and joint torques that rotate the body about the vertical axis while limiting centre-of-mass translation. Finally, the zero-command penalty is not the explanation for a command such as $(0,0,0.5)$, because the OP3 implementation applies that penalty only when the full joystick-command norm is below $0.1$.
+
+The reward table matters because several early reproduction failures could be explained by reward or observation mismatches rather than by PPO itself. In particular, changing the command distribution, omitting history, altering action-rate regularisation, changing the default pose offset, or modifying termination behaviour changes the optimisation problem. Our STRIDE reproduction therefore treats the RSS Appendix~C reward family and the public OP3 implementation as the baseline to match before introducing OP3-specific modifications such as actuator-order remapping, Webots deployment validation, or future changes to motor stiffness and contact modelling.
