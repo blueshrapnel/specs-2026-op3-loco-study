@@ -13,7 +13,7 @@ This paper reports a reproduction and deployment-oriented adaptation of the MuJo
 
 Reinforcement learning can now produce visually convincing locomotion policies for small humanoid robots in high-throughput physics simulators. However, the practical value of these policies depends on whether the simulated task, the exported policy, and the real robot control path describe the same closed-loop system.
 
-This paper presents a reproduction and adaptation of the MuJoCo Playground OP3 joystick locomotion environment \citep{todorov2012mujoco,brax2021github,mujocoPlayground2025}. The aim is deliberately modest: reproduce the reference OP3 walking result, adapt it to a ROBOTIS-motor-ordered STRIDE training pipeline, and identify the main sim-to-real gaps before making claims about robust physical deployment.
+This paper presents a reproduction and adaptation of the MuJoCo Playground OP3 joystick locomotion environment \citep{Todorov2012-mujoco-physics-engine-model-based-control,Freeman2021-brax-differentiable-physics-engine-large-scale-rigid-body-simulation,Zakka2025-demonstrating-mujoco-playground,GoogleDeepMind2025-mujoco-playground}. The aim is deliberately modest: reproduce the reference OP3 walking result, adapt it to a ROBOTIS-motor-ordered STRIDE training pipeline, and identify the main sim-to-real gaps before making claims about robust physical deployment.
 
 \textbf{Draft positioning.} This is not new algorithmic work. The technical contribution is an engineering and measurement report: what had to match, what initially did not match, and which simulator assumptions were contradicted by measurements from the physical OP3.
 
@@ -22,7 +22,9 @@ This paper presents a reproduction and adaptation of the MuJoCo Playground OP3 j
 
 \subsection{MuJoCo, MJX, and Playground}
 
-MuJoCo provides the rigid-body simulation substrate and MJX provides the JAX-compatible accelerated execution path used for high-throughput policy training. MuJoCo Playground builds on this stack as a canonical open-source suite of robot-learning environments for locomotion, manipulation, and vision-based control \citep{todorov2012mujoco,zakka2025mujocoPlayground,mujocoPlaygroundRepo}. For this study, the important point is that ROBOTIS OP3 is included as a first-class humanoid joystick environment alongside Berkeley Humanoid, Unitree H1/G1, and Booster T1, sharing the same commanded velocity abstraction $(v_x, v_y, \omega_z)$. The paper reports rapid zero-shot deployment across six real robot platforms, and the RSS~2025 demo page records live demonstrations on Unitree Go1, Unitree G1, Booster T1, and LEAP hand \citep{mujocoPlaygroundDemo2025}. OP3 is therefore supported by the canonical library, but not reported as a demonstrated zero-shot hardware platform; this gap is the focus of our deployment audit.
+MuJoCo provides the rigid-body simulation substrate and MJX provides the JAX-compatible accelerated execution path used for high-throughput policy training. MuJoCo Playground builds on this stack as a canonical open-source suite of robot-learning environments for locomotion, manipulation, and vision-based control \citep{Todorov2012-mujoco-physics-engine-model-based-control,Zakka2025-demonstrating-mujoco-playground,GoogleDeepMind2025-mujoco-playground-gpu-accelerated-robot-learning-sim-to-real-transfer}. The raison d'etre of Playground is to make sim-to-real robot learning faster to start, faster to iterate, and easier to reproduce. The RSS paper presents it as a fully open-source MJX-based framework whose integrated stack combines GPU-accelerated physics, on-device batch rendering, ready-made training environments, notebooks, hyperparameters, training curves, and deployment examples. The intended effect is to move the user's effort away from repeatedly rebuilding simulator and training infrastructure, and toward encoding desired robot behaviour, training policies on a single GPU, and testing whether those policies transfer to hardware \citep{Zakka2025-demonstrating-mujoco-playground}.
+
+For this study, the important point is that ROBOTIS OP3 is included as a first-class humanoid joystick environment alongside Berkeley Humanoid, Unitree H1/G1, and Booster T1, sharing the same commanded velocity abstraction $(v_x, v_y, \omega_z)$. The paper reports rapid zero-shot deployment across six real robot platforms, and the RSS~2025 demo page records live demonstrations on Unitree Go1, Unitree G1, Booster T1, and LEAP hand \citep{Zakka2025-demonstrating-mujoco-playground,MuJoCoPlaygroundContributors2025-mujoco-playground-rss-2025}. OP3 is therefore supported by the canonical library, but not reported as a demonstrated zero-shot hardware platform; this gap is the focus of our deployment audit.
 
 The reference implementation defines the observation layout, reward terms, command sampling, PD gain setup, history stacking, and PPO training recipe used as the baseline.
 
@@ -39,7 +41,7 @@ Briefly describe the OP3: 20 XM430-W350 Dynamixel joints, position-control deplo
 
 \subsection{Reference and STRIDE models}
 
-The reference model is the MuJoCo Playground OP3 task. The STRIDE model keeps the same broad training formulation but reorders actuators to match ROBOTIS motor IDs 1--20, so the policy output vector maps directly to real robot motor commands.
+The reference model is the MuJoCo Playground OP3 joystick locomotion task \citep{Zakka2025-demonstrating-mujoco-playground,GoogleDeepMind2025-mujoco-playground-gpu-accelerated-robot-learning-sim-to-real-transfer}. The STRIDE model keeps the same broad training formulation but reorders actuators to match ROBOTIS motor IDs 1--20, so the policy output vector maps directly to real robot motor commands.
 
 \subsection{Training pipeline}
 
