@@ -1,0 +1,878 @@
+[
+  {
+    "name": "e35f0503-5243-e54c-94f4-3cbe9ea2502d",
+    "type": "Highlight",
+    "page": 1,
+    "start_xy": [
+      291.123,
+      459.521
+    ],
+    "text": "maller",
+    "contents": "\"smaller\" than what? Why is it relevant that is small? I see that this becomes clear later but I would suggest to simply remove it here, where it is not clear yet",
+    "author": "nc14aad",
+    "created": "2026-05-05T15:03:48",
+    "color": "#fbf485"
+  },
+  {
+    "name": "5d415dbf-8fca-1347-b107-cecda6a0d3b9",
+    "type": "StrikeOut",
+    "page": 1,
+    "start_xy": [
+      104.036,
+      438.078
+    ],
+    "text": "using the same joystick command abstraction of forward velocity, lateral velocity, and yaw rate.",
+    "contents": "too specific information for the abstract (you could re-use it somewhere else in the text; or it could be removed in case you will need to do some pruning for lack of space).\n\nAlso,",
+    "author": "nc14aad",
+    "created": "2026-05-05T16:04:18",
+    "color": "#f76363"
+  },
+  {
+    "name": "056119c7-3bff-5142-8250-53b499b6578d",
+    "type": "Caret",
+    "page": 1,
+    "start_xy": [
+      297.568,
+      443.495
+    ],
+    "text": "t a",
+    "contents": "robot",
+    "author": "nc14aad",
+    "created": "2026-05-05T16:01:52",
+    "color": "#f76363"
+  },
+  {
+    "name": "6bed0655-02e5-fb4e-a4b3-68b31ed2c01d",
+    "type": "StrikeOut",
+    "page": 1,
+    "start_xy": [
+      104.286,
+      416.26
+    ],
+    "text": "not a new reinforcement-learning algorithm, but",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:16:02",
+    "color": "#f76363"
+  },
+  {
+    "name": "d0eb94ed-8dee-e34f-8257-e119d80faf33",
+    "type": "Caret",
+    "page": 1,
+    "start_xy": [
+      252.071,
+      410.768
+    ],
+    "text": ".",
+    "contents": "\", however, differently from these larger robotic platforms, OP3's real-hardware deployment has not being tested yet.\"\n\nwhich \"paper\"? I would not mention papers directly in the abstract (with no reference). In few words, remove their mention here.",
+    "author": "nc14aad",
+    "created": "2026-05-05T16:10:07",
+    "color": "#f76363"
+  },
+  {
+    "name": "d52c4b54-1266-0545-ac84-745d586061d2",
+    "type": "Highlight",
+    "page": 1,
+    "start_xy": [
+      381.688,
+      404.976
+    ],
+    "text": "Playground OP3 policy",
+    "contents": "from the point of view of the reader, what is this? I imagine is the one offered by Mujoco Playground in simulation... but the reader does not know that. So, in case, say it.",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:17:00",
+    "color": "#fbf485"
+  },
+  {
+    "name": "ced5e5e9-529d-dd40-bf34-a3f09c8a7f10",
+    "type": "Highlight",
+    "page": 1,
+    "start_xy": [
+      107.491,
+      394.067
+    ],
+    "text": "MJX/Brax PPO training, actuator-order alignment with ROBOTIS motor IDs, ONNX export, ROS 2 policy execution, MuJoCo-to-Webots",
+    "contents": "there is a list of acronyms here. The problem is that the reader does not know what they stand for. Apart from very obvious ones (e.g., AI), for all acronyms, each time they appear for the first time, you first use the complete work they stand for, add the corresponding acronym in parenthesis (adding the citation to a reference, when meaningful), and only from that point onwards you can use the acronym on it own for the remaining of the paper. \n\nA similar problem is that the reader may not know what they mean even when the full expansion of each letter is provided. For this reason, you should also add a couple of words that define what these words represent. \n\nIn few words, what are \"MJX\", \"Brax\", \"PPO\", \"ROBOTIS\", \"ONNX\", \"ROS 2\"?\nI will not necessarily repeat the same comment for the main text (you need to define them once over all anyway), nor for new acronyms that will come.\n\nAn alternative would be to remove the highlighted text from the abstract (which according to me would be better than as the text is now) and leave the explanation of what these are in the main text, where you will have more space to do so.",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:19:11",
+    "color": "#fbf485"
+  },
+  {
+    "name": "2a5fbaf9-74ab-9848-9bd0-e49c0dc8b2e7",
+    "type": "StrikeOut",
+    "page": 1,
+    "start_xy": [
+      322.105,
+      383.533
+    ],
+    "text": "MuJoCo-to-Webots",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:18:44",
+    "color": "#f76363"
+  },
+  {
+    "name": "5f39f293-75e6-9e41-b436-bc35efd677c3",
+    "type": "StrikeOut",
+    "page": 1,
+    "start_xy": [
+      104.286,
+      372.623
+    ],
+    "text": "measurement-driven",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:19:00",
+    "color": "#f76363"
+  },
+  {
+    "name": "592df01a-6dc9-ef45-9080-45b1c1288ba8",
+    "type": "Caret",
+    "page": 1,
+    "start_xy": [
+      403.643,
+      377.797
+    ],
+    "text": "s",
+    "contents": "preliminary",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:29:26",
+    "color": "#c036c4"
+  },
+  {
+    "name": "64e1ed6e-569a-c646-bd29-62bb8671b5b1",
+    "type": "Highlight",
+    "page": 1,
+    "start_xy": [
+      327.482,
+      361.339
+    ],
+    "text": "simulator contact assumptions",
+    "contents": "?",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:30:08",
+    "color": "#fbf485"
+  },
+  {
+    "name": "15567426-2ffd-0b4d-b15b-079fd2084660",
+    "type": "Caret",
+    "page": 1,
+    "start_xy": [
+      342.437,
+      367.131
+    ],
+    "text": "i",
+    "contents": "finding",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:27:28",
+    "color": "#f76363"
+  },
+  {
+    "name": "880ee891-0558-c74e-b23f-30ceef054662",
+    "type": "Highlight",
+    "page": 1,
+    "start_xy": [
+      402.629,
+      350.43
+    ],
+    "text": "into a second simulator or",
+    "contents": "As we have discussed... This can be confusing if the overall presentation of the paper is not changed. \nI would not change it this stage, but I would rather keep the main goal to get the sim-to-real working with the OP3, and the sim to sim as a preliminary testing step towards the achievement of the main sim-to-real goal (this why I have also added the \"preliminary\" adjective above)",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:30:50",
+    "color": "#fbf485"
+  },
+  {
+    "name": "ce3f0da1-1082-6941-b691-254ededd98f6",
+    "type": "Caret",
+    "page": 1,
+    "start_xy": [
+      499.27,
+      356.222
+    ],
+    "text": "e",
+    "contents": "determine",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:30:20",
+    "color": "#f76363"
+  },
+  {
+    "name": "adb77ff0-624e-444e-9a7f-3d03ce0bbcc7",
+    "type": "Text",
+    "page": 1,
+    "start_xy": [
+      48.5901,
+      263.017
+    ],
+    "prior_outline": "Motivation",
+    "contents": "add a couple of references to support these two statements",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:28:13",
+    "color": "#fbf485"
+  },
+  {
+    "name": "96b888f7-26be-8b49-bd83-9a87956fa71a",
+    "type": "StrikeOut",
+    "page": 1,
+    "start_xy": [
+      68.4201,
+      256.551
+    ],
+    "prior_outline": "Motivation",
+    "text": "High-throughput",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:35:04",
+    "color": "#f76363"
+  },
+  {
+    "name": "cbeaec36-15cb-1b4b-8603-764781f021b8",
+    "type": "StrikeOut",
+    "page": 1,
+    "start_xy": [
+      285.65,
+      256.551
+    ],
+    "prior_outline": "Motivation",
+    "text": "visually",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:35:07",
+    "color": "#f76363"
+  },
+  {
+    "name": "c37c7456-bdec-7449-b31e-9fc58b103472",
+    "type": "Highlight",
+    "page": 1,
+    "start_xy": [
+      217.789,
+      234.358
+    ],
+    "prior_outline": "Motivation",
+    "text": "sam",
+    "contents": "\"same\" of what? Same with the physical closed-loop system.\n\nI also wonder if it is exactly same that one wants in the general case (since yours sounds like a general statement), because is domain randomization to work these two do not need to be the same, but the simulated policy is actually more general and \"contains\" the physical one.\n\nI was also asking my self whether all this component integrated with each other still constitute a \"closed loop system\"? probably yes, simply a very complex one, but I am not 100% sure.",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:36:04",
+    "color": "#fbf485"
+  },
+  {
+    "name": "bd9222eb-5edd-4c4b-acaf-fc705bbe7f21",
+    "type": "Highlight",
+    "page": 1,
+    "start_xy": [
+      324.281,
+      234.358
+    ],
+    "prior_outline": "Motivation",
+    "text": "MuJoCo Playground",
+    "contents": "what is it? Add a reference here and put the paragraph below (which actually describes it and the reader will then be in a better position to understand what follows) before this sentence.\n\nCheck also the English of this sentence.",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:42:29",
+    "color": "#fbf485"
+  },
+  {
+    "name": "a82e70e7-52e0-314c-9573-743529618e78",
+    "type": "Highlight",
+    "page": 1,
+    "start_xy": [
+      138.385,
+      223.449
+    ],
+    "prior_outline": "Motivation",
+    "text": "implementation",
+    "contents": "\"implementation\" of what?",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:40:08",
+    "color": "#fbf485"
+  },
+  {
+    "name": "69d1c1e9-4331-174a-9ff8-3db8e14c1791",
+    "type": "Caret",
+    "page": 1,
+    "start_xy": [
+      535.14,
+      229.241
+    ],
+    "prior_outline": "Motivation",
+    "text": "s",
+    "contents": "offers",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:39:42",
+    "color": "#f76363"
+  },
+  {
+    "name": "fc760197-db15-734d-a945-2d6e83fe690d",
+    "type": "Caret",
+    "page": 1,
+    "start_xy": [
+      212.351,
+      218.532
+    ],
+    "prior_outline": "Motivation",
+    "text": "d",
+    "contents": ", according to the authors, ",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:40:33",
+    "color": "#c036c4"
+  },
+  {
+    "name": "10a562cd-c10f-2c4b-8a3c-b5ba77a9318b",
+    "type": "Highlight",
+    "page": 1,
+    "start_xy": [
+      306.425,
+      212.54
+    ],
+    "prior_outline": "Motivation",
+    "text": "ONNX Runtime",
+    "contents": "?",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:45:53",
+    "color": "#fbf485"
+  },
+  {
+    "name": "e5d60c78-616f-884a-a943-3f602ddebb9f",
+    "type": "Caret",
+    "page": 1,
+    "start_xy": [
+      318.256,
+      218.332
+    ],
+    "prior_outline": "Motivation",
+    "text": ":",
+    "contents": "performance",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:41:10",
+    "color": "#f76363"
+  },
+  {
+    "name": "e09bc8a4-e8ba-9f48-9e44-55854ff275b4",
+    "type": "Highlight",
+    "page": 1,
+    "start_xy": [
+      414.68,
+      212.564
+    ],
+    "prior_outline": "Motivation",
+    "text": "ros2-control",
+    "contents": "is the different font used here meant to represent something in particular (which the reader may not know)? E.g. a library? Something related with the code?\n\nTo be honest I would keep references to code name spaces to the bare minimum. If it was for me I would not include them at all (move them to the Appendix if necessary). But it may be a matter of personal style and experience.",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:46:02",
+    "color": "#fbf485"
+  },
+  {
+    "name": "a51b5e2c-13f0-cd45-a1e9-903151cfedda",
+    "type": "Highlight",
+    "page": 1,
+    "start_xy": [
+      182.02,
+      201.631
+    ],
+    "prior_outline": "Motivation",
+    "text": "estimator",
+    "contents": "\"estimator\" of what?",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:49:14",
+    "color": "#fbf485"
+  },
+  {
+    "name": "1a2bce57-d481-3a43-8cb9-1d29d030f9ae",
+    "type": "Caret",
+    "page": 1,
+    "start_xy": [
+      192.443,
+      207.28
+    ],
+    "prior_outline": "Motivation",
+    "text": "s,",
+    "contents": "of training",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:45:24",
+    "color": "#c036c4"
+  },
+  {
+    "name": "750b19a8-7149-4a41-abb0-79f72415440e",
+    "type": "Highlight",
+    "page": 1,
+    "start_xy": [
+      168.487,
+      174.333
+    ],
+    "prior_outline": "Motivation",
+    "text": "The RSS paper",
+    "contents": "you refer to a paper by the name of its authors, or bib code word, not by the name of the venue it has been disseminated.",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:51:02",
+    "color": "#fbf485"
+  },
+  {
+    "name": "fd7613d5-59bb-8d46-b66e-efdac70265fd",
+    "type": "Caret",
+    "page": 1,
+    "start_xy": [
+      261.689,
+      169.194
+    ],
+    "prior_outline": "Motivation",
+    "text": "s",
+    "contents": "\"Mujoco\"\n\nfrom now onwards, often, you do not mention the \"Mujoco\" word anymore. In principle it is fine, you simply want to be sure that the reader will not get confused with this.",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:51:49",
+    "color": "#c036c4"
+  },
+  {
+    "name": "af2863c6-3f29-c944-bd24-1cda8ef02562",
+    "type": "Caret",
+    "page": 1,
+    "start_xy": [
+      160.719,
+      158.307
+    ],
+    "prior_outline": "Motivation",
+    "text": "n",
+    "contents": "standard",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:52:53",
+    "color": "#f76363"
+  },
+  {
+    "name": "bd3032a2-8af8-a84e-a2e7-d4fc13ecc65e",
+    "type": "Highlight",
+    "page": 1,
+    "start_xy": [
+      71.6248,
+      141.606
+    ],
+    "prior_outline": "Motivation",
+    "text": "reproducible notebooks, hyperparameters, training curves, and deployment examples",
+    "contents": "these do not sound relevant to me wrt research, but more for a tutorial or documentation. Some of them are also a bit vague.",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:53:48",
+    "color": "#fbf485"
+  },
+  {
+    "name": "dd7d3905-6662-704d-998c-ebc507dd88c5",
+    "type": "Caret",
+    "page": 1,
+    "start_xy": [
+      298.858,
+      125.58
+    ],
+    "prior_outline": "Motivation",
+    "text": "t",
+    "contents": "one",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:55:46",
+    "color": "#f76363"
+  },
+  {
+    "name": "1ac7be1d-2c5e-a348-8e59-5c8ff77f5a3d",
+    "type": "Highlight",
+    "page": 1,
+    "start_xy": [
+      71.6248,
+      103.399
+    ],
+    "prior_outline": "Motivation",
+    "text": "Related frameworks make the same infrastructure question timely",
+    "contents": "why?",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:56:23",
+    "color": "#fbf485"
+  },
+  {
+    "name": "2312bb88-9c8a-1640-a91b-22df67f45815",
+    "type": "Highlight",
+    "page": 1,
+    "start_xy": [
+      97.0824,
+      92.4895
+    ],
+    "prior_outline": "Motivation",
+    "text": "robot-learning stacks",
+    "contents": "is it still about humanoid locomotion?",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:56:42",
+    "color": "#fbf485"
+  },
+  {
+    "name": "01432d37-0d1b-0246-94e2-45facaaf3ca2",
+    "type": "Highlight",
+    "page": 1,
+    "start_xy": [
+      297.495,
+      92.4895
+    ],
+    "prior_outline": "Motivation",
+    "text": "legged-gym",
+    "contents": "these small case initials are suspicious",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:57:11",
+    "color": "#fbf485"
+  },
+  {
+    "name": "0fbba21e-ee3a-2847-999e-733cee42ee82",
+    "type": "Highlight",
+    "page": 1,
+    "start_xy": [
+      348.007,
+      92.4895
+    ],
+    "prior_outline": "Motivation",
+    "text": "contextualis",
+    "contents": "?",
+    "author": "nc14aad",
+    "created": "2026-05-05T20:57:40",
+    "color": "#fbf485"
+  },
+  {
+    "name": "a238e9b6-4a7f-7b45-aeb5-e2ca5cf322a6",
+    "type": "Text",
+    "page": 2,
+    "start_xy": [
+      468.393,
+      690.61
+    ],
+    "prior_outline": "Motivation",
+    "contents": "probably is obvious already, but consider adding a picture of the physical robot somewhere",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:03:55",
+    "color": "#fbf485"
+  },
+  {
+    "name": "a18903c9-24fd-7345-a74d-f70487addc3f",
+    "type": "StrikeOut",
+    "page": 2,
+    "start_xy": [
+      150.243,
+      508.288
+    ],
+    "prior_outline": "Motivation",
+    "text": "in the paper or RSS 2025 demo.",
+    "contents": "You continue to not use proper references.\n\n Anyway, I would remove this anyway here.",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:07:05",
+    "color": "#f76363"
+  },
+  {
+    "name": "4332b84e-abd9-bb43-a04e-e48c9c4bf196",
+    "type": "Caret",
+    "page": 2,
+    "start_xy": [
+      315.941,
+      513.705
+    ],
+    "prior_outline": "Motivation",
+    "text": "k f",
+    "contents": "robots",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:05:16",
+    "color": "#f76363"
+  },
+  {
+    "name": "c2fbdc08-296d-734b-8ec5-1f3d47c41614",
+    "type": "Caret",
+    "page": 2,
+    "start_xy": [
+      453.846,
+      513.692
+    ],
+    "prior_outline": "Motivation",
+    "text": "e",
+    "contents": "tested for",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:06:08",
+    "color": "#c036c4"
+  },
+  {
+    "name": "cfc4fadd-89f4-1e4a-8113-49b4e8c3fefc",
+    "type": "StrikeOut",
+    "page": 2,
+    "start_xy": [
+      457.454,
+      519.197
+    ],
+    "prior_outline": "Motivation",
+    "text": "of",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:06:04",
+    "color": "#f76363"
+  },
+  {
+    "name": "7b64fe8a-bce9-5841-91b2-e0ebeaa52aa4",
+    "type": "Caret",
+    "page": 2,
+    "start_xy": [
+      146.431,
+      502.796
+    ],
+    "prior_outline": "Motivation",
+    "text": "s i",
+    "contents": "transfer",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:06:36",
+    "color": "#f76363"
+  },
+  {
+    "name": "4d724c3e-d28d-1344-948e-727765dd6622",
+    "type": "Caret",
+    "page": 2,
+    "start_xy": [
+      434.377,
+      502.796
+    ],
+    "prior_outline": "Motivation",
+    "text": "S",
+    "contents": "an interesting",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:07:51",
+    "color": "#f76363"
+  },
+  {
+    "name": "64321a77-b1b0-be4a-9596-b4d085f3aa71",
+    "type": "Highlight",
+    "page": 2,
+    "start_xy": [
+      452.037,
+      497.003
+    ],
+    "prior_outline": "Motivation",
+    "text": "obbyist-tier",
+    "contents": "does this mean something technically relevant to the problem addressed here? Otherwise, I would remove it and simply say \"to another...\". You could still add in parenthesis \"(in our case, a hobbyist tier...)\".",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:12:34",
+    "color": "#fbf485"
+  },
+  {
+    "name": "bbc17eab-868a-8e41-8809-3be94d55b912",
+    "type": "StrikeOut",
+    "page": 2,
+    "start_xy": [
+      222.851,
+      486.469
+    ],
+    "prior_outline": "Motivation",
+    "text": "are still informative because they",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:13:40",
+    "color": "#f76363"
+  },
+  {
+    "name": "6040ec37-dfa5-544a-b7e9-b41140fdc034",
+    "type": "StrikeOut",
+    "page": 2,
+    "start_xy": [
+      68.4202,
+      475.56
+    ],
+    "prior_outline": "Motivation",
+    "text": "Our goal is deliberately conservative: reproduce the reference walking behaviour, adapt it to a ROBOTIS-ordered STRIDE pipeline, and identify fidelity gaps before making strong hardware claims.",
+    "contents": "I would remove this.\n\nAlso, still for the reader, what is \"STRIDE\"?",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:14:56",
+    "color": "#f76363"
+  },
+  {
+    "name": "793c6aa0-c2a0-fc45-a87a-c18a0c6c3c1b",
+    "type": "Caret",
+    "page": 2,
+    "start_xy": [
+      355.171,
+      480.801
+    ],
+    "prior_outline": "Motivation",
+    "text": "y",
+    "contents": "would",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:13:19",
+    "color": "#c036c4"
+  },
+  {
+    "name": "6a13a539-38c1-2a47-967e-c899d1e65c41",
+    "type": "Caret",
+    "page": 2,
+    "start_xy": [
+      385.466,
+      480.801
+    ],
+    "prior_outline": "Motivation",
+    "text": "e",
+    "contents": "loose",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:13:28",
+    "color": "#c036c4"
+  },
+  {
+    "name": "ae8eae2d-b907-c64a-bd62-9e303b4fb418",
+    "type": "Highlight",
+    "page": 2,
+    "start_xy": [
+      71.3159,
+      411.527
+    ],
+    "prior_outline": "Pipeline",
+    "text": "The current pipeline is: MuJoCo MJCF → MJX → Brax PPO → ONNX → ROS 2 → Webots / OP3.",
+    "contents": "I would move this at the end of the paragraph, where the meaning of all these steps will be clearer.",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:37:56",
+    "color": "#fbf485"
+  },
+  {
+    "name": "0047e2f1-fe76-8140-ad03-acee71614ec4",
+    "type": "Text",
+    "page": 2,
+    "start_xy": [
+      420.787,
+      410.164
+    ],
+    "prior_outline": "Pipeline",
+    "contents": "explain better the role of sim-to-sim, as preliminary test before moving to sim-to-real. \nI can see that this is well explained at the beginning of the next section, but it should be said clearly the first time the sim-to-sim is mentioned in the paper.",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:50:25",
+    "color": "#fbf485"
+  },
+  {
+    "name": "b209037b-6c58-ce48-b561-509b3e3678e1",
+    "type": "Highlight",
+    "page": 2,
+    "start_xy": [
+      251.089,
+      368.901
+    ],
+    "prior_outline": "Pipeline",
+    "text": "MJCF model,",
+    "contents": "?",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:40:37",
+    "color": "#fbf485"
+  },
+  {
+    "name": "4f6d6212-0ab4-314e-936c-e81fd94322b8",
+    "type": "Highlight",
+    "page": 2,
+    "start_xy": [
+      71.6248,
+      347.083
+    ],
+    "prior_outline": "Pipeline",
+    "text": "This model is executed in MJX for accelerated physics simulation, enabling large-scale reinforcement learning with PPO implemented in Brax.",
+    "contents": "this sentence would have partially helped in the previous page, where these acronyms were introduced without defining them (\"partially\" because I still think it is not enough, you want to be even clearer in this regard)",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:41:49",
+    "color": "#fbf485"
+  },
+  {
+    "name": "4c156027-32cc-f94a-958e-55264138b0b9",
+    "type": "Highlight",
+    "page": 2,
+    "start_xy": [
+      120.859,
+      347.083
+    ],
+    "prior_outline": "Pipeline",
+    "text": "MuJoCo Menagerie",
+    "contents": "?",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:41:08",
+    "color": "#fbf485"
+  },
+  {
+    "name": "cadda463-5cf7-7446-884b-692c18f581a4",
+    "type": "Highlight",
+    "page": 2,
+    "start_xy": [
+      159.616,
+      325.264
+    ],
+    "prior_outline": "Pipeline",
+    "text": "uns",
+    "contents": "\"runs\" where?",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:43:34",
+    "color": "#fbf485"
+  },
+  {
+    "name": "8db5cf63-21e2-ea4f-82bd-401a8b7c69cc",
+    "type": "Highlight",
+    "page": 2,
+    "start_xy": [
+      71.2959,
+      314.355
+    ],
+    "prior_outline": "Pipeline",
+    "text": "To ensure that the same policy can be deployed across simulators and hardware without modifying the underlying robot description, we introduce a bidirectional mapping layer, termed Flip–Flop. The Flip component transforms observations from the target system (Webots or physical OP3) into the convention expected by the policy. The Flop component performs the inverse transformation on the policy outputs, mapping joint-position commands into the correct target-system actuator ordering.",
+    "contents": "Is this really relevant? It sounds a too specific implementation detail. I think this should be removed or moved to the appendix",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:47:36",
+    "color": "#fbf485"
+  },
+  {
+    "name": "af7a0473-2d4a-0d4c-89e7-9d44254a7fe4",
+    "type": "Highlight",
+    "page": 2,
+    "start_xy": [
+      156.537,
+      314.355
+    ],
+    "prior_outline": "Pipeline",
+    "text": "20-dimensional joint-positio",
+    "contents": "and how many DOF has the robot? Maybe a brief description of this kind would help to appreciate more these values",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:45:09",
+    "color": "#fbf485"
+  },
+  {
+    "name": "2955ecda-ecf2-b94b-ba8f-6bdb7ba9e93f",
+    "type": "Caret",
+    "page": 2,
+    "start_xy": [
+      356.902,
+      319.804
+    ],
+    "prior_outline": "Pipeline",
+    "text": "n",
+    "contents": "\"space\"\n\nobtained how? From the robot camera?",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:44:11",
+    "color": "#c036c4"
+  },
+  {
+    "name": "6077457b-ba24-9543-92a8-623ffd9fb135",
+    "type": "Highlight",
+    "page": 2,
+    "start_xy": [
+      357.102,
+      314.355
+    ],
+    "prior_outline": "Pipeline",
+    "text": "default pose.",
+    "contents": "what pose is the default pose?",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:47:03",
+    "color": "#fbf485"
+  },
+  {
+    "name": "856411ff-f453-4449-bfde-30e4bedc5b41",
+    "type": "Highlight",
+    "page": 2,
+    "start_xy": [
+      265.113,
+      259.81
+    ],
+    "prior_outline": "Pipeline",
+    "text": "to enable deployment outside the JAX runtime",
+    "contents": "without providing more context, this is not clear",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:48:33",
+    "color": "#fbf485"
+  },
+  {
+    "name": "eacd701f-b2b6-8a49-8a3d-ef487183158d",
+    "type": "Highlight",
+    "page": 2,
+    "start_xy": [
+      236.247,
+      248.901
+    ],
+    "prior_outline": "Pipeline",
+    "text": "inference",
+    "contents": "I am not sure I understand the use of the word \"inference\" here",
+    "author": "nc14aad",
+    "created": "2026-05-05T21:49:12",
+    "color": "#fbf485"
+  }
+]
