@@ -29,6 +29,10 @@ The robot is first defined in MuJoCo using an MJCF model, including kinematics, 
 \section{Sim-to-Sim Transfer}
 
 Before deploying on hardware, we introduce a sim-to-sim validation stage in which the trained policy is executed in both MuJoCo (training environment) and Webots (deployment simulator). The purpose is not to claim that Webots is more accurate than MuJoCo, but to test whether the exported ONNX policy and ROS~2 policy node can drive an OP3 model outside the original training simulator. The policy is first verified in MuJoCo to reproduce the reference joystick locomotion behaviour. The same exported ONNX is then deployed in Webots through the ROS2 policy node. This setup isolates differences arising from simulator dynamics. In pacticular, differences observed between MuJoCo and Webots can be attributed to actuator modelling (e.g stiffness and damping), contact dynamics, and timestep integration, rather than joint ordering or coordinate conventions. We compare the two simulators under indentical joystick commands and analysis:
+(i)~Joint position tracking (target vs actual)
+(ii)~ Tracking error over time
+(iii)~Time vs torque
+(iv)~
 
 
 The main comparisons will be commanded versus achieved base velocity, torso pitch and roll, foot contact timing, joint position tracking, action saturation, and qualitative failure modes such as foot scuffing, collapse, or turning bias. Disagreement between MuJoCo and Webots is useful when it localises a deployment assumption that was hidden in the training loop.
