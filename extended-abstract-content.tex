@@ -15,7 +15,7 @@ The current pipeline is:
 \text{MuJoCo MJCF} \rightarrow \text{MJX} \rightarrow \text{Brax PPO} \rightarrow \text{ONNX} \rightarrow \text{ROS 2} \rightarrow \text{Webots / OP3}.
 \]
 
-The policy runs at 50~Hz with a 147-dimensional observation formed from three stacked 49-dimensional frames. Actions are 20-dimensional joint-position offsets around the default pose. A key implementation detail is actuator ordering: the STRIDE model reorders the MuJoCo actuators to match ROBOTIS motor IDs 1--20, reducing the chance that learned actions are permuted during deployment.
+The robot is first defined in MuJoCo using an MJCF model, including kinematics, inertial parameters, contact geometry, and position-controlled actuators. This model is executed in MJX for accelerated physics simulation, enabling large-scale reinforcement learning with PPO implemented in Brax. The policy runs at 50~Hz with a 147-dimensional observation formed from three stacked 49-dimensional frames. Actions are 20-dimensional joint-position offsets around the default pose. A key implementation detail is actuator ordering: the STRIDE model reorders the MuJoCo actuators to match ROBOTIS motor IDs 1--20, reducing the chance that learned actions are permuted during deployment. The trained policy is exported to ONNX format to enable deployment outside the JAX runtime. A ROS2 node loads the ONNX model and performs real-time inference.
 
 \begin{figure}[t]
   \centering
