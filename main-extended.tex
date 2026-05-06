@@ -4,12 +4,83 @@
 %% Engine: pdfLaTeX. This is the short submission version with figure
 %% placeholders; the full draft remains in main.tex.
 
-\documentclass{article}
+\documentclass[10pt]{article}
 \usepackage{arxiv}
+% arxiv.sty already loads geometry AND re-applies its own layout via an
+% \AtBeginDocument{\newgeometry{textheight=9in, textwidth=6.5in, top=1in,
+% headheight=14pt, headsep=25pt, footskip=30pt}}. To shave a small amount
+% of bottom margin we override later (\AtBeginDocument fires in
+% registration order) keeping all of arxiv.sty's other settings intact and
+% just nudging textheight up — gives a few more lines of body per page.
+\AtBeginDocument{%
+  \newgeometry{
+    textheight=9.4in,
+    textwidth=6.5in,
+    top=1in,
+    headheight=14pt,
+    headsep=25pt,
+    footskip=30pt,
+  }%
+}
 
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{microtype}
+
+% Compress vertical whitespace for the SPECS 3-page limit.
+% Use the classic indented-first-line paragraph style: \parindent makes
+% paragraph breaks visible without needing the extra \parskip space that
+% would otherwise have to do that work. Keeps the page tight while
+% paragraph structure remains legible inside dense blocks of text.
+\setlength{\parindent}{1.2em}
+\setlength{\parskip}{2pt plus 0.5pt minus 0pt}
+\setlength{\textfloatsep}{7pt plus 2pt minus 2pt}
+\setlength{\intextsep}{7pt plus 2pt minus 2pt}
+\setlength{\abovecaptionskip}{4pt}
+\setlength{\belowcaptionskip}{2pt}
+\usepackage{titlesec}
+\titlespacing*{\section}{1pt}{1.2ex plus 0.3ex minus 0.2ex}{0.6ex plus 0.2ex}
+\titlespacing*{\subsection}{1pt}{0.8ex plus 0.2ex minus 0.1ex}{0.4ex plus 0.1ex}
+% Tighten the arxiv.sty title block. Three places eat vertical space:
+% the rules around the title, and two large \vskips at the end of
+% \@maketitle (one between author and date, one between date and the
+% abstract). We compress all three to claw back ~0.5 in above the abstract.
+\makeatletter
+\renewcommand{\@toptitlebar}{\hrule height 1\p@\vskip 0.10in\vskip -\parskip}
+\renewcommand{\@bottomtitlebar}{\vskip 0.12in\vskip -\parskip\hrule height 1\p@\vskip 0.05in}
+\renewcommand{\@maketitle}{%
+  \vbox{%
+    \hsize\textwidth
+    \linewidth\hsize
+    \vskip 0.05in
+    \@toptitlebar
+    \centering
+    {\LARGE\sc \@title\par}
+    \@bottomtitlebar
+    \textsc{\undertitle}\\
+    \vskip 0.05in
+    \def\And{%
+      \end{tabular}\hfil\linebreak[0]\hfil
+      \begin{tabular}[t]{c}\bf\rule{\z@}{20\p@}\ignorespaces
+    }%
+    \def\AND{%
+      \end{tabular}\hfil\linebreak[4]\hfil
+      \begin{tabular}[t]{c}\bf\rule{\z@}{20\p@}\ignorespaces
+    }%
+    \begin{tabular}[t]{c}\bf\rule{\z@}{20\p@}\@author\end{tabular}%
+    \vskip 0.10in \@minus 0.05in
+    \center{\@date}
+  }%
+}
+% Render the abstract environment one point smaller than body text so it
+% sits visually as an abstract and saves vertical space on the title page.
+% Drop the visible "Abstract" heading but keep its vertical footprint
+% (the abstract is recognisable from its quote-style indentation and
+% smaller font, so the heading is redundant).
+\renewenvironment{abstract}
+  {\centerline{\vphantom{\large \bfseries \scshape Abstract}}\begin{quote}\small}
+  {\end{quote}}
+\makeatother
 \usepackage{xcolor}
 \usepackage[framemethod=default]{mdframed}
 \usepackage{amsmath,amssymb}
@@ -17,6 +88,8 @@
 \graphicspath{{figures/}}
 \usepackage{booktabs}
 \usepackage{subcaption}
+\captionsetup{font=small,labelfont=bf}
+\captionsetup[sub]{font=small,labelfont=bf}
 \usepackage{url}
 \usepackage{hyperref}
 \hypersetup{
@@ -28,7 +101,8 @@
   hypertexnames=false
 }
 \usepackage[authoryear,round]{natbib}
-\setlength{\bibsep}{0.15em}
+\setlength{\bibsep}{0pt}
+\renewcommand{\bibfont}{\footnotesize}
 
 % Lightweight author note box for drafting.
 \definecolor{commentboxbg}{HTML}{F7F9FA}
@@ -68,34 +142,23 @@
 
 \input{paper-metadata}
 
-\title{\paperTitle}
+\title{\paperTitle\thanks{\paperTitleFootnote}}
 
-\author{
-  Author One\\
-  Affiliation One\\
-  \texttt{email@example.com}
-  \And
-  Author Two\\
-  Affiliation One\\
-  \texttt{email@example.com}
-  \And
-  Author Three\\
-  Affiliation One\\
-  \texttt{email@example.com}
-  Author Four\\
-  Affiliation One\\
-  \texttt{email@example.com}
-}
+\author{\paperAuthorsArxiv}
 
 \renewcommand{\headeright}{\paperRunningHeader}
 \renewcommand{\undertitle}{\paperUndertitleExtended}
 \renewcommand{\shorttitle}{\paperShortTitle}
 
-\date{\today}
+\date{}
 
 \begin{document}
 
+% Pull the title block up further on the title page only. Doesn't affect
+% subsequent pages, which keep the geometry-set top margin.
+\vspace*{-1.0cm}
 \maketitle
+\enlargethispage{1.0cm}
 
 \input{extended-abstract-content}
 
