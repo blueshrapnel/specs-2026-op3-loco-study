@@ -1,8 +1,47 @@
 %% Shared paper metadata.
-%% Edit this file to change titles and running page headers across builds.
+%% Edit this file to change titles, running page headers, and authors
+%% across builds. Two author-block macros are provided because the
+%% three main files use two different conventions:
+%%   - main.tex and main-extended.tex use the arxiv.sty style:
+%%       \author{Name\\Affiliation\\\texttt{email}\And ...}
+%%     → \paperAuthorsArxiv
+%%   - main-production.tex uses authblk:
+%%       \author[1]{Name} ... \affil[1]{Affiliation}
+%%     → \paperAuthorsAuthblk plus \paperAffiliationsAuthblk
 
-\newcommand{\paperTitle}{From MuJoCo Playground to ROBOTIS OP3: sim-to-real gaps in joystick locomotion}
-\newcommand{\paperRunningHeader}{MuJoCo Playground to ROBOTIS OP3: sim-to-sim and sim-to-real}
+\newcommand{\paperTitle}{ROBOTIS OP3 joystick locomotion: \\ MuJoCo Playground towards sim-to-real}
+\newcommand{\paperRunningHeader}{ROBOTIS OP3 joystick locomotion: \\ MuJoCo Playground towards sim-to-real transfer}
 \newcommand{\paperShortTitle}{}
 \newcommand{\paperUndertitleFull}{A working preprint}
-\newcommand{\paperUndertitleExtended}{Extended abstract draft}
+\newcommand{\paperUndertitleExtended}{Extended abstract}
+
+%% Affiliation shared by all authors — single-affiliation, single-uni venue.
+%% Carried as a title-level footnote rather than under each author so the
+%% authors fit on one line and we save vertical space.
+\newcommand{\paperAffiliation}{University of Hertfordshire}
+\newcommand{\paperTitleFootnote}{All authors are with the \paperAffiliation.}
+\newcommand{\paperCorrespondingFootnote}{Corresponding author: \texttt{k.archer2@herts.ac.uk}.}
+
+%% Author block — arxiv.sty convention (used by main.tex and main-extended.tex).
+%% Affiliation handled via \paperTitleFootnote on the title; corresponding
+%% author marker via \thanks on Karen's name.
+\newcommand{\paperAuthorsArxiv}{%
+  Quang Nam Phi
+  \And
+  Athul Krishna Renjith
+  \And
+  Karen Archer\thanks{\paperCorrespondingFootnote}
+  \And
+  Nicola Catencacci Volpi
+}
+
+%% Author and affiliation blocks — authblk convention (used by main-production.tex)
+\newcommand{\paperAuthorsAuthblk}{%
+  \author[1]{Quang Nam Phi}%
+  \author[1]{Athul Krishna Renjith}%
+  \author[1]{Karen Archer\thanks{\paperCorrespondingFootnote}}%
+  \author[1]{Nicola Catenacci Volpi}%
+}
+\newcommand{\paperAffiliationsAuthblk}{%
+  \affil[1]{\paperAffiliation}%
+}
